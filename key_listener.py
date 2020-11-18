@@ -19,7 +19,9 @@ FIND_CHAIN = [{keyboard.KeyCode(char='1'), keyboard.Key.tab},
 
 # The currently active modifiers
 current = set()
-screen_arr = []
+# screen_arr = []
+elem_names = []
+iter = 0
 
 
 def on_press(key):
@@ -35,7 +37,14 @@ def on_press(key):
         if any(all(k in current for k in comb) for comb in MAKE_SCREEN):
             print('Click!')
             current.remove(key)
-            screen_arr.insert(0,get_screen())
+            # screen_arr.insert(0,get_screen())
+            screen = get_screen()
+            if screen.any():
+                elem_names.insert(0, get_text_from_image(screen))
+                if elem_names.__len__() > 2:
+                    del elem_names[-1]
+
+            print(elem_names)
             # TODO: append to screen_arr (it has to have <=2 images, if new comes in - [0] erases)
     # FIND CHAIN
     elif any([key in comb for comb in FIND_CHAIN]):
@@ -48,8 +57,7 @@ def on_press(key):
                 except Exception:
                     pass
             print('Chain size: {}\n'.format(length))
-            if screen_arr:
-                get_text_from_image(screen_arr[0])
+
 
 
 #            TODO: check if the are 2 screenshots

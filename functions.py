@@ -16,8 +16,8 @@ def get_screen():
             result = get_image_(curr_window_hwnd)
             if not result.any(): print("OPS!")
         else:
-            imshow('screen', result)
-            k = waitKey()
+            # imshow('screen', result)
+            # k = waitKey()
             return result
 
     else:
