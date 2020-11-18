@@ -1,6 +1,9 @@
+import pickle
+
 from pynput import keyboard
 from functions import get_screen
 from tesseract import get_text_from_image
+from aspects_chain import find_chain
 
 # shift + z для создания скрина. Хранить в памяти только 2 последних скрина. по shift + {1,2,3,4+}
 # запускать определение текста на скринах и поиск цепочки размером соотв. кнопке - вывести результат
@@ -57,6 +60,7 @@ def on_press(key):
                 except Exception:
                     pass
             print('Chain size: {}\n'.format(length))
+            find_chain(elem_names, length+1, class_aspect)
 
 
 
@@ -76,6 +80,11 @@ def on_release(key):
 
 
 def run():
+    global class_aspect
+    open_file = open("aspects.pkl", "rb")  # reads all aspects
+    class_aspect = pickle.load(open_file)
+    open_file.close()
+
     global listener
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()

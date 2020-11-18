@@ -95,7 +95,7 @@ def win_create_bitmap(window, w, h, left, top):
 
 
 def get_image_(window):
-    print("|DEBUG| Current window HNDL: ", window)
+    # print("|DEBUG| Current window HNDL: ", window)
     bbox = win32gui.GetWindowRect(window)
     left, top, right, bot = bbox
     w = right - left
