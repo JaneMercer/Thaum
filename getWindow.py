@@ -51,12 +51,17 @@ def resize(im, coef):  # resizes the image by coef
 
 
 def process_image(im):  # processes the image the way you want
-    image2 = resize(im, 0.3)
-    hsl = cv2.cvtColor(image2, cv2.COLOR_BGR2HLS)
-    mask = cv2.inRange(hsl, np.array([120, 0, 40]), np.array([135, 40, 255]))  # masks specific color range
-    blank_image = image2.copy()
-    blank_image[:] = (0, 0, 255)
-    res = cv2.bitwise_and(blank_image, blank_image, mask=mask)  # applies mask to the image and shows result on black bg
+    image2 = resize(im, 0.9)
+    hsv = cv2.cvtColor(image2, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(hsv, np.array([89, 169, 254]), np.array([91, 171, 256]))  # masks specific color range
+    nonzero = cv2.findNonZero(mask)
+    x, y, w, h = cv2.boundingRect(nonzero)
+    temp = mask[y:y+h, x:x+w]
+    res = cv2.copyMakeBorder(temp.copy(), 10, 10, 10, 10, cv2.BORDER_CONSTANT, value=(0,0,0))
+
+    # blank_image = image2.copy()
+    # blank_image[:] = (0, 0, 255)
+    # res = cv2.bitwise_and(blank_image, blank_image, mask=mask)  # applies mask to the image and shows result on black bg
     return res
 
 
@@ -102,6 +107,8 @@ def get_image_(window):
             if bool_img:
                 cv_img = cv2.cvtColor(win_img, cv2.COLOR_RGBA2RGB)
                 result = process_image(cv_img)
+                # cv2.imshow("screen",result)
+                # cv2.waitKey()
                 return result
 
         except Exception as e:
