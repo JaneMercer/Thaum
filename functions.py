@@ -1,5 +1,4 @@
 from getWindow import get_image_, get_window
-from cv2 import imshow, waitKey
 
 exe_name = 'java.exe'
 window_HWNDs = []

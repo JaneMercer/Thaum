@@ -4,6 +4,7 @@ from pynput import keyboard
 from functions import get_screen
 from tesseract import get_text_from_image
 from aspects_chain import find_chain
+import cv2
 
 # shift + z для создания скрина. Хранить в памяти только 2 последних скрина. по shift + {1,2,3,4+}
 # запускать определение текста на скринах и поиск цепочки размером соотв. кнопке - вывести результат
@@ -59,8 +60,16 @@ def on_press(key):
                     length = int(k.char)
                 except Exception:
                     pass
+            current.remove(key)
             print('Chain size: {}\n'.format(length))
-            find_chain(elem_names, length+1, class_aspect)
+            chain_img = find_chain(elem_names, length+1, class_aspect)
+            # chain_img = find_chain(["Sano","Victus"], length+1, class_aspect)
+
+            try:
+                cv2.imshow("1", chain_img)
+                cv2.waitKey()
+            except Exception:
+                pass
 
 
 

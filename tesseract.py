@@ -21,7 +21,7 @@ def show_res(image, text):
 
 def get_text_from_image(image):
     try:
-        image = cv2.GaussianBlur(image, (3, 3), 0)
+        image = cv2.GaussianBlur(image, (3,3), 0)
         tess_res = pytesseract.image_to_string(image, lang='eng', config='--oem 1 --psm 6')
         res = tess_res.replace('\n\x0c','')
         print(res)

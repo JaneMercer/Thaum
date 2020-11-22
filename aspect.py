@@ -6,6 +6,7 @@ class Aspect:
         self.image = []
         self.color_label = []
         self.dependencies = []
+        self.value = 1
 
     def add_image(self, image):
         self.image = image
@@ -16,6 +17,9 @@ class Aspect:
     def add_dependencies(self, dependencies):
         self.dependencies = dependencies
 
+    def add_value(self, value):
+        self.value = value
+
     def get_index(self):
         return self.index
 
@@ -24,6 +28,9 @@ class Aspect:
 
     def get_name(self):
         return self.name
+
+    def get_value(self):
+        return self.value
 
     def get_color_label(self):
         return self.color_label
