@@ -11,7 +11,9 @@ import cv2
 # ctrl + q для выхода
 EXIT = {keyboard.KeyCode(char='c'), keyboard.Key.ctrl_l}
 MAKE_SCREEN = [{keyboard.KeyCode(char='z'), keyboard.Key.shift},
-               {keyboard.KeyCode(char='Z'), keyboard.Key.shift}]
+               {keyboard.KeyCode(char='Z'), keyboard.Key.shift},
+               {keyboard.KeyCode(char='x'), keyboard.Key.shift},
+               {keyboard.KeyCode(char='X'), keyboard.Key.shift}]
 FIND_CHAIN = [{keyboard.KeyCode(char='1'), keyboard.Key.tab},
               {keyboard.KeyCode(char='2'), keyboard.Key.tab},
               {keyboard.KeyCode(char='3'), keyboard.Key.tab},
@@ -24,7 +26,7 @@ FIND_CHAIN = [{keyboard.KeyCode(char='1'), keyboard.Key.tab},
 # The currently active modifiers
 current = set()
 # screen_arr = []
-elem_names = []
+elem_names = [[],[]]
 iter = 0
 
 
@@ -39,16 +41,30 @@ def on_press(key):
     elif any([key in comb for comb in MAKE_SCREEN]):
         current.add(key)
         if any(all(k in current for k in comb) for comb in MAKE_SCREEN):
+            index = ''
+            for k in current:
+                try:
+                    index = str(k.char)
+                except Exception:
+                    pass
             print('Click!')
             current.remove(key)
             # screen_arr.insert(0,get_screen())
-            screen = get_screen()
-            if screen.any():
-                elem_names.insert(0, get_text_from_image(screen))
-                if elem_names.__len__() > 2:
-                    del elem_names[-1]
+            if index:
+                screen = get_screen()
+                if screen.any():
+                    # elem_names.insert(0, get_text_from_image(screen))
+                    if index == 'z' or index == 'Z':
+                        if elem_names.__len__() > 1:
+                            del elem_names[0]
+                        elem_names.insert(0, get_text_from_image(screen))
+                    elif index == 'x' or index == 'X':
+                        if elem_names.__len__() > 1:
+                            del elem_names[-1]
+                        elem_names.insert(1, get_text_from_image(screen))
 
-            print(elem_names)
+                print("{}:  {}".format(index, elem_names))
+
             # TODO: append to screen_arr (it has to have <=2 images, if new comes in - [0] erases)
     # FIND CHAIN
     elif any([key in comb for comb in FIND_CHAIN]):
@@ -62,7 +78,7 @@ def on_press(key):
                     pass
             current.remove(key)
             print('Chain size: {}\n'.format(length))
-            chain_img = find_chain(elem_names, length+1, class_aspect)
+            chain_img = find_chain(elem_names, length + 1, class_aspect)
             # chain_img = find_chain(["Sano","Victus"], length+1, class_aspect)
 
             try:
@@ -70,7 +86,6 @@ def on_press(key):
                 cv2.waitKey()
             except Exception:
                 pass
-
 
 
 #            TODO: check if the are 2 screenshots

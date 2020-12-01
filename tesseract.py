@@ -3,6 +3,7 @@ import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
+
 def boxes(img):
     h, w = img.shape
     boxes = pytesseract.image_to_boxes(img)
@@ -21,12 +22,14 @@ def show_res(image, text):
 
 def get_text_from_image(image):
     try:
-        image = cv2.GaussianBlur(image, (3,3), 0)
-        tess_res = pytesseract.image_to_string(image, lang='eng', config='--oem 1 --psm 6')
-        res = tess_res.replace('\n\x0c','')
-        print(res)
-        return res
+        # image = cv2.GaussianBlur(image, (3, 3), 0)
+        tess_res = pytesseract.image_to_string(image, lang='eng', #config = 'thaum')
+                                                config='-c tessedit_char_whitelist=qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM --oem 1 --psm 6 ')
+        res = tess_res.replace('\n\x0c', '')
+        # print(res)
+
         # boxes_img = boxes(image)  # BOXES
         # show_res(boxes_img, res)
+        return res
     except Exception:
         print('Это что ещё такое?')

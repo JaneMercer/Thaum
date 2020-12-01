@@ -53,11 +53,12 @@ def resize(im, coef):  # resizes the image by coef
 def process_image(im):  # processes the image the way you want
     image2 = resize(im, 0.9)
     hsv = cv2.cvtColor(image2, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv, np.array([89, 169, 254]), np.array([91, 171, 256]))  # masks specific color range
+    mask = cv2.inRange(hsv, np.array([86, 165, 254]), np.array([93, 174, 256]))  # masks specific color range
     nonzero = cv2.findNonZero(mask)
     x, y, w, h = cv2.boundingRect(nonzero)
     temp = mask[y:y+h, x:x+w]
-    res = cv2.copyMakeBorder(temp.copy(), 10, 10, 10, 10, cv2.BORDER_CONSTANT, value=(0,0,0))
+    res = cv2.copyMakeBorder(temp.copy(), 3, 3, 3, 3, cv2.BORDER_CONSTANT, value=(0,0,0))
+    res = cv2.bitwise_not(res)
 
     # blank_image = image2.copy()
     # blank_image[:] = (0, 0, 255)
