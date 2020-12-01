@@ -1,8 +1,7 @@
 numpy==1.19.4
-opencv-python==4.4.0.46
-Pillow==8.0.1
-psutil==5.7.3
 pynput==1.7.1
 pytesseract==0.3.6
 pywin32==300
-six==1.15.0
+psutil==5.7.3
+opencv_python==4.4.0.46
+win32gui==221.6
